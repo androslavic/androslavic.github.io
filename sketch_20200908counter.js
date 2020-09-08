@@ -11,6 +11,18 @@ var player = [0,1,0,0,0,0];
 var bigPass = [0,0,0,0,0,0];
 var pause = 0;
 
+
+function generationEndCheck(brojIgraca){
+  
+ for (let i=1;i<=brojIgraca; i++){
+   
+   if (bigPass[i]==0){
+       return 1;
+   }
+ }
+  return 0;
+}
+
 function colorRotate (num){
   
   var tmp;
@@ -150,16 +162,16 @@ function setup() {
       if (bigPass[i+1]==0)
             {
             player[1+i]=1;
-            console.log("prvi");
             break;
             }
     }
-    else
+    else if (ind<brojIgraca)
     {
-      if (bigPass[i+1+ind]==0)
+      
+      if (bigPass[((ind+i)%brojIgraca)+1]==0)
       {
-        player[(ind+1+i)]=1;
-            console.log("drugi");
+        player[(ind+i)%brojIgraca+1]=1;
+            console.log("drugi" +  ind + " " + (((ind+i)%brojIgraca)+1));
         break;
       }
     }  
@@ -399,7 +411,7 @@ function draw() {
       sekunde=Math.floor(time[i]/30)-60*minute - 3600*sati;
       mili = ((time[i]%60)*100/60).toFixed(0);
       text (sati.toString() + ' : ' + minute.toString() + ' : ' + sekunde.toString() + ' : ' + mili.toString(), 120+(windowWidth/(brojIgraca+1))*(i-1), 55); 
-      if (player[i]==1 && pause==0 && bigPass[i]==0)
+      if (player[i]==1 && pause==0 && bigPass[i]==0 && generationEndCheck(brojIgraca))
       {
         time[i] = time[i]-1;    
       fill(255); 
